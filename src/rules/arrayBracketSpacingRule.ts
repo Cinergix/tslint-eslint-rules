@@ -80,19 +80,23 @@ class ArrayBracketSpacingWalker extends Lint.RuleWalker {
 
     if (!isBreakAfterOpeningBracket) {
       if (openingBracketMustBeSpaced && !isSpaceAfterOpeningBracket) {
-        this.addFailure(this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING.requiredBeginningSpace));
+        const fix = this.createFix(this.appendText(node.getStart() + 1, ' '));
+        this.addFailure(this.createFailure(node.getStart() + 1, 0, Rule.FAILURE_STRING.requiredBeginningSpace, fix));
       }
       if (!openingBracketMustBeSpaced && isSpaceAfterOpeningBracket) {
-        this.addFailure(this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING.noBeginningSpace));
+        const fix = this.createFix(this.deleteText(node.getStart() + 1, 1));
+        this.addFailure(this.createFailure(node.getStart() + 1, 0, Rule.FAILURE_STRING.noBeginningSpace, fix));
       }
     }
 
     if (!isBreakBeforeClosingBracket) {
       if (closingBracketMustBeSpaced && !isSpaceBeforeClosingBracket) {
-        this.addFailure(this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING.requiredEndingSpace));
+        const fix = this.createFix(this.appendText(node.getEnd() - 1 , ' '));
+        this.addFailure(this.createFailure(node.getEnd() - 1, 0, Rule.FAILURE_STRING.requiredEndingSpace, fix));
       }
       if (!closingBracketMustBeSpaced && isSpaceBeforeClosingBracket) {
-        this.addFailure(this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING.noEndingSpace));
+        const fix = this.createFix(this.deleteText(node.getEnd() - 2, 1));
+        this.addFailure(this.createFailure(node.getEnd() - 1, 0, Rule.FAILURE_STRING.noEndingSpace, fix));
       }
     }
   }
