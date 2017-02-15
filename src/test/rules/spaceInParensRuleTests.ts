@@ -194,6 +194,12 @@ ruleTester.addTestGroup('invalid', 'should fail invalid', [
     errors: expecting([ { message: REJECTED_SPACE_ERROR, line: 0, column: 9 } ])
   },
   {
+    code: 'var x = (4 + 5    ) * 6',
+    output: 'var x = (4 + 5) * 6',
+    options: ['never'],
+    errors: expecting([ { message: REJECTED_SPACE_ERROR, line: 0, column: 18 } ])
+  },
+  {
     code: 'var x = (4 + 5 ) * 6',
     output: 'var x = (4 + 5) * 6',
     options: ['never'],
